@@ -9,12 +9,12 @@ channels:
 dependencies:
   - python=3.11
   - pip
-  - pytorch=2.4.1
-  - pytorch-cuda=12.1
-  - pytorch-mutex=1.0=cuda
+  - pytorch::pytorch=2.4.1
+  - pytorch::pytorch-cuda=12.1
+  - pytorch::pytorch-mutex=1.0=cuda
   - numpy=1.23.5
   - pandas=1.5.3
-  - pyg::pyg=2.6.1
+  - pyg::pyg=2.6.1=py311_torch_2.4.0_cu121
   - pyg::pytorch-sparse=0.6.18
   - pyg::pytorch-scatter=2.1.2
   - pyg::pytorch-cluster=1.6.3

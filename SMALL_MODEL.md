@@ -46,6 +46,9 @@ Both Lightning namespaces used by the native code are pinned to 2.5.0.
 Use `PYTHONNOUSERSITE=1` to keep unrelated user-site packages out of this runtime.
 Biotite stays at 0.41.0 but uses its PyPI wheel: the current conda build requires
 NumPy 1.26.4, which conflicts with the upstream NumPy 1.23.5 pin.
+The three PyTorch packages are qualified to the official `pytorch` channel;
+Conda-forge's alternate 2.4.1.post300 build uses a different CUDA/C++ ABI and cannot
+load the native PyG extensions. PyG 2.6.1 also selects its matching CUDA 12.1 build.
 
 Set `DATA_PATH` to a remote data directory. Acquire the official D_FS index
 and prepare the released checkpoint and evaluation assets:
@@ -68,10 +71,12 @@ The filter retains every original domain record for indexed proteins. Native
 The supplied inference label-distribution asset is not a per-protein annotation
 table and cannot replace these annotations.
 
-Designability also needs native ProteinMPNN weights and Hugging Face ESMFold.
-The upstream `script_utils/download_pmpnn_weghts.sh` lists pinned ProteinMPNN
-sources; preserve existing weights when acquiring them. Keep caches and bulk
-artifacts remote.
+The preparer also caches native CA ProteinMPNN v_48_020 weights and Hugging Face
+ESMFold. ProteinMPNN gets an ignored symlink at its native source location;
+the weights and model cache stay under `DATA_PATH`. Before evaluation, export
+`CACHE_DIR="$DATA_PATH/huggingface"` and `HF_HUB_CACHE="$CACHE_DIR"`. Set
+`PYTHON_EXEC` to the active environment's Python so the native ProteinMPNN
+subprocess uses the same runtime.
 
 ## Execution checks and commands
 
