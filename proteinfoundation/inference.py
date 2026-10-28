@@ -17,7 +17,6 @@ sys.path.append(root)  # Adds project's root directory
 
 import argparse
 import random
-import shutil
 import loralib as lora
 
 import hydra
@@ -215,7 +214,7 @@ if __name__ == "__main__":
         default=0,
         help="Leave as 0.",
     )
-    args = parser.parse_args()
+    args, overrides = parser.parse_known_args()
     logger.info(" ".join(sys.argv))
 
     assert (
@@ -240,7 +239,7 @@ if __name__ == "__main__":
             config_name = f"inf_{args.config_number}"
         else:
             config_name = args.config_name
-        cfg = hydra.compose(config_name=config_name)
+        cfg = hydra.compose(config_name=config_name, overrides=overrides)
         logger.info(f"Inference config {cfg}")
         run_name = cfg.run_name_
 
@@ -250,9 +249,7 @@ if __name__ == "__main__":
 
     # Set root path for this inference run
     root_path = f"./inference/{config_name}"
-    if os.path.exists(root_path):
-        shutil.rmtree(root_path)
-    os.makedirs(root_path, exist_ok=True)
+    os.makedirs(root_path, exist_ok=False)
 
     # Load model from checkpoint
     ckpt_path = cfg.ckpt_path

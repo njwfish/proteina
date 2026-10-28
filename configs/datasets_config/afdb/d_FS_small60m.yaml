@@ -1,0 +1,14 @@
+defaults:
+  - d_FS
+  - _self_
+
+datamodule:
+  _target_: proteinfoundation.datasets.dfs_data.DFSDataModule
+  batch_size: 5
+  format: cif
+  overwrite: false
+  transforms:
+    - _target_: proteinfoundation.datasets.transforms.GlobalRotationTransform
+    - _target_: proteinfoundation.datasets.transforms.TEDLabelTransform
+      file_path: ${oc.env:DATA_PATH}/d_FS/ted_dfs.tsv
+      pkl_path: ${oc.env:DATA_PATH}/d_FS/afdb_to_cath_ted.pkl

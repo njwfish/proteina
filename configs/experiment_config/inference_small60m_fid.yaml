@@ -1,0 +1,7 @@
+defaults:
+  - inference_fid_ca
+  - _self_
+
+run_name_: proteina_small60m_fid
+ckpt_path: ${oc.env:DATA_PATH}/checkpoints
+ckpt_name: proteina_v1.3_DFS_60M_notri.ckpt

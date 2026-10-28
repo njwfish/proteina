@@ -1,0 +1,27 @@
+# Released v1.3 checkpoint settings, using the public D_FS dataloader.
+defaults:
+  - training_ca
+  - override model: caflow_small60m
+  - _self_
+
+run_name_: proteina_small60m
+dataset: d_FS_small60m
+dataset_config_subdir: afdb
+
+hardware:
+  ngpus_per_node_: 8
+  nnodes_: 2
+
+training:
+  self_cond: true
+  fold_cond: true
+  mask_T_prob: 0.75
+  mask_A_prob: 0.7999999998933333
+  mask_C_prob: 0.8333333331944445
+
+opt:
+  max_steps: 1300000
+  val_check_interval: 5000
+
+log:
+  log_wandb: false

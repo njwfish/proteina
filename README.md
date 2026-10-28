@@ -35,6 +35,9 @@
 
 ## Setup
 
+The [released 60M setup](SMALL_MODEL.md) documents the checkpoint-matched small
+configuration, data preparation, native commands and adaptive integration seams.
+
 For environment setup [mamba](https://mamba.readthedocs.io/en/latest/user_guide/mamba.html) or [micromamba](https://mamba.readthedocs.io/en/latest/user_guide/micromamba.html) is recommended, but alternatively conda can also be used as a drop-in replacement (substitute `mamba` with `conda`).
 
 ```

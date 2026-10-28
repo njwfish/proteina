@@ -1,0 +1,30 @@
+name: caflow
+target_pred: v
+augmentation:
+  global_rotation: true
+  naug_rot: 1
+validation:
+  temp_045:
+    sampling_mode: sc
+    sc_scale_noise: 0.45
+    sc_scale_score: 1.0
+    gt_mode: 1/t
+    gt_p: 1.0
+    gt_clamp_val: null
+  ode:
+    sampling_mode: vf
+    sc_scale_noise: 0.0
+    sc_scale_score: 0.0
+    gt_mode: 1/t
+    gt_p: 1.0
+    gt_clamp_val: null
+  temp_035:
+    sampling_mode: sc
+    sc_scale_noise: 0.25
+    sc_scale_score: 1.0
+    gt_mode: 1/t
+    gt_p: 1.0
+    gt_clamp_val: null
+defaults:
+- _self_
+- nn: ca_af3_60M_released

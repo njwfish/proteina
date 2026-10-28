@@ -99,7 +99,7 @@ if __name__ == "__main__":
         action="store_true",
         help="Shows progress bar as training progresses.",
     )
-    args = parser.parse_args()
+    args, overrides = parser.parse_known_args()
 
     logger.add(
         sys.stdout,
@@ -111,7 +111,7 @@ if __name__ == "__main__":
     # Load experiment config
     config_path = "../configs/experiment_config"
     with hydra.initialize(config_path, version_base=hydra.__version__):
-        cfg_exp = hydra.compose(config_name=args.config_name)
+        cfg_exp = hydra.compose(config_name=args.config_name, overrides=overrides)
         if args.single:
             # Rewrite number of GPUs and nodes for local runs or if single flag is used
             cfg_exp.hardware.ngpus_per_node_ = 1
@@ -280,6 +280,7 @@ if __name__ == "__main__":
     show_prog_bar = args.show_prog_bar
     trainer = L.Trainer(
         max_epochs=cfg_exp.opt.max_epochs,
+        max_steps=cfg_exp.opt.get("max_steps", -1),
         accelerator=cfg_exp.hardware.accelerator,
         devices=cfg_exp.hardware.ngpus_per_node_,  # This is number of gpus per node, not total
         num_nodes=cfg_exp.hardware.nnodes_,
