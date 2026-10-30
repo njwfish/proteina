@@ -6,7 +6,7 @@ from proteinfoundation.datasets.pdb_data import PDBLightningDataModule
 
 
 class DFSDataModule(PDBLightningDataModule):
-    def prepare_data(self):
+    def validate_raw_data(self):
         index = (self.data_dir / "d_FS_index.txt").read_text().splitlines()
         expected = set(index)
         if len(index) != 588318 or len(expected) != len(index):
@@ -18,6 +18,10 @@ class DFSDataModule(PDBLightningDataModule):
                 f"D_FS raw corpus is incomplete: {len(missing)} missing, "
                 f"{len(extra)} unexpected structures"
             )
+        return index
+
+    def prepare_data(self):
+        expected = set(self.validate_raw_data())
         super().prepare_data()
         with (self.data_dir / f"{self.data_dir.name}.csv").open() as source:
             rows = list(csv.DictReader(source))

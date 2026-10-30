@@ -57,6 +57,7 @@ and prepare the released checkpoint and evaluation assets:
 python -m script_utils.prepare_small --data-root "$DATA_PATH" --index /path/to/d_FS_index.txt
 python -m script_utils.download_dfs --data-root "$DATA_PATH" --gcloud /path/to/gcloud
 python -m script_utils.prepare_dfs_labels --data-root "$DATA_PATH" --ted /path/to/ted_365m.domain_summary.cath.globularity.taxid.tsv.gz
+python -m script_utils.prepare_dfs datamodule.num_workers=32
 ```
 
 The D_FS index contains 588,318 exact AFDB-v4 identifiers. The downloader uses
@@ -64,6 +65,10 @@ the authenticated original-v4 GCS bucket and CIF files, which the native parser
 supports. It does not substitute current AFDB versions. The full raw corpus
 and successfully processed native structures are required by the training
 datamodule; incomplete downloads cannot silently become the training set.
+The preprocessing command distributes the unchanged native CIF parser across
+CPU workers, publishes each complete graph atomically, then creates the native
+CSV/splits and checks a training batch. It reuses existing processed graphs.
+Set `datamodule.num_workers` to the CPUs allocated to the preprocessing job.
 
 Obtain annotations from the [TED release](https://zenodo.org/records/13908086).
 The filter retains every original domain record for indexed proteins. Native
